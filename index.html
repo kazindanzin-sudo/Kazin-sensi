@@ -7,7 +7,7 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #ff6a00, #1c1c1c);
+  background: linear-gradient(135deg, #000, #8b0000);
   color: white;
   display: flex;
   justify-content: center;
@@ -15,61 +15,105 @@ body {
   height: 100vh;
 }
 .app {
-  background: #121212;
-  padding: 20px;
+  background: #111;
+  padding: 15px;
   border-radius: 20px;
-  width: 90%;
+  width: 95%;
   max-width: 420px;
   text-align: center;
   box-shadow: 0 0 20px black;
+  position: relative;
 }
-h1 {
-  margin-bottom: 5px;
+h1 { color: red; margin-bottom: 5px; }
+
+.tabs {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 10px;
 }
-p {
-  margin-top: 0;
-  font-size: 14px;
-  color: #ccc;
+.tabs button {
+  flex: 1;
+  background: #222;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
 }
+.tabs button.active {
+  background: red;
+}
+
+.section { display: none; }
+.section.active { display: block; }
+
 select, button {
   width: 100%;
-  padding: 12px;
-  border-radius: 12px;
+  padding: 10px;
+  border-radius: 10px;
   border: none;
-  margin-top: 12px;
-  font-size: 16px;
+  margin-top: 8px;
+  font-size: 15px;
 }
-button {
-  background: #ff6a00;
+.mainbtn {
+  background: red;
   color: white;
   font-weight: bold;
 }
+
 .resultado {
-  margin-top: 15px;
-  background: #1f1f1f;
-  padding: 15px;
-  border-radius: 15px;
-  font-size: 16px;
-}
-.footer {
   margin-top: 10px;
-  font-size: 12px;
-  color: #888;
+  background: #1a1a1a;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+/* VISUAL */
+.crosshair {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  font-size: 28px;
+  display: none;
+}
+.fov {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 150px;
+  height: 150px;
+  border: 2px solid red;
+  border-radius: 50%;
+  transform: translate(-50%,-50%);
+  display: none;
+}
+.lockbtn {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  background: red;
+  border-radius: 50%;
+  padding: 10px;
+  display: none;
 }
 </style>
 </head>
 <body>
 <div class="app">
-  <h1>Kazin Sensi</h1>
-  <p>Gerador de Sensibilidade</p>
 
-  <select id="jogo">
-    <option value="ff">Free Fire</option>
-    <option value="cod">Call of Duty</option>
-    <option value="pubg">PUBG</option>
-  </select>
+<h1>Kazin Sensi</h1>
 
-  <select id="modelo">
+<div class="tabs">
+  <button onclick="openTab('sensi')" class="active" id="btnSensi">Sensibilidade</button>
+  <button onclick="openTab('visual')" id="btnVisual">Visual</button>
+</div>
+
+<!-- SENSI -->
+<div id="sensi" class="section active">
+  <p>Free Fire</p>
+
+  <select id="marca">
     <option>Samsung</option>
     <option>Motorola</option>
     <option>Xiaomi</option>
@@ -77,50 +121,83 @@ button {
     <option>iPhone</option>
   </select>
 
-  <button onclick="gerar()">Gerar Sensibilidade</button>
+  <select id="nivel">
+    <option value="baixa">Sensi Baixa</option>
+    <option value="media">Sensi Média</option>
+    <option value="alta">Sensi Alta</option>
+  </select>
 
+  <button class="mainbtn" onclick="gerar()">Gerar Sensibilidade</button>
   <div class="resultado" id="resultado"></div>
+</div>
 
-  <div class="footer">Kazin Sensi ©</div>
+<!-- VISUAL -->
+<div id="visual" class="section">
+  <p>Opções VISUAIS (não altera o jogo)</p>
+
+  <button onclick="toggleFov()">Círculo FOV</button>
+  <button onclick="toggleLock()">Botão Lock</button>
+
+  <select onchange="changeCrosshair(this.value)">
+    <option value="">Selecionar mira</option>
+    <option value="+">+</option>
+    <option value="×">×</option>
+    <option value="•">•</option>
+    <option value="⊕">⊕</option>
+    <option value="✛">✛</option>
+    <option value="⌖">⌖</option>
+  </select>
+</div>
+
+<div class="crosshair" id="crosshair">+</div>
+<div class="fov" id="fov"></div>
+<div class="lockbtn" id="lock">🔒</div>
+
 </div>
 
 <script>
+function openTab(tab) {
+  document.getElementById("sensi").classList.remove("active");
+  document.getElementById("visual").classList.remove("active");
+  document.getElementById(tab).classList.add("active");
+
+  document.getElementById("btnSensi").classList.remove("active");
+  document.getElementById("btnVisual").classList.remove("active");
+
+  if(tab==="sensi") btnSensi.classList.add("active");
+  if(tab==="visual") btnVisual.classList.add("active");
+}
+
 function gerar() {
-  let jogo = document.getElementById("jogo").value;
-  let geral = Math.floor(Math.random() * 50) + 50;
-  let mira = Math.floor(Math.random() * 40) + 40;
-  let redDot = Math.floor(Math.random() * 30) + 30;
+  let nivel = document.getElementById("nivel").value;
+  let geral, redDot, mira2x, mira4x, awm;
 
-  let texto = "";
+  if (nivel === "baixa") geral=120, redDot=110, mira2x=105, mira4x=95, awm=85;
+  if (nivel === "media") geral=150, redDot=145, mira2x=140, mira4x=130, awm=120;
+  if (nivel === "alta") geral=180, redDot=175, mira2x=170, mira4x=160, awm=150;
 
-  if (jogo === "ff") {
-    texto = `
-    Geral: ${geral}%<br>
-    Red Dot: ${redDot}%<br>
-    Mira 2x: ${mira}%<br>
-    Mira 4x: ${mira - 5}%<br>
-    AWM: ${mira - 10}%
-    `;
-  }
+  document.getElementById("resultado").innerHTML = `
+Geral: ${geral}<br>
+Red Dot: ${redDot}<br>
+Mira 2x: ${mira2x}<br>
+Mira 4x: ${mira4x}<br>
+AWM: ${awm}
+`;
+}
 
-  if (jogo === "cod") {
-    texto = `
-    Horizontal: ${geral}%<br>
-    Vertical: ${mira}%<br>
-    ADS: ${redDot}%
-    `;
-  }
-
-  if (jogo === "pubg") {
-    texto = `
-    3ª pessoa: ${geral}%<br>
-    1ª pessoa: ${mira}%<br>
-    Mira: ${redDot}%
-    `;
-  }
-
-  document.getElementById("resultado").innerHTML = texto;
+function toggleFov(){
+  let f=document.getElementById("fov");
+  f.style.display = f.style.display==="none"?"block":"none";
+}
+function toggleLock(){
+  let l=document.getElementById("lock");
+  l.style.display = l.style.display==="none"?"block":"none";
+}
+function changeCrosshair(v){
+  let c=document.getElementById("crosshair");
+  if(v===""){c.style.display="none";}
+  else{c.innerText=v;c.style.display="block";}
 }
 </script>
 </body>
-  </html>
+</html>
