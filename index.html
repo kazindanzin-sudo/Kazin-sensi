@@ -2,202 +2,228 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Kazin Sensi</title>
+<title>Kazin Sensi FF</title>
+
 <style>
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #000, #8b0000);
+  background: black;
   color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-.app {
-  background: #111;
-  padding: 15px;
-  border-radius: 20px;
-  width: 95%;
-  max-width: 420px;
+  font-family: Arial;
   text-align: center;
-  box-shadow: 0 0 20px black;
-  position: relative;
 }
-h1 { color: red; margin-bottom: 5px; }
 
-.tabs {
-  display: flex;
-  gap: 5px;
-  margin-bottom: 10px;
-}
-.tabs button {
-  flex: 1;
-  background: #222;
-  color: white;
-  border: none;
+h1 { color: red; }
+
+.tab {
+  display: inline-block;
   padding: 10px;
-  border-radius: 10px;
-}
-.tabs button.active {
-  background: red;
-}
-
-.section { display: none; }
-.section.active { display: block; }
-
-select, button {
-  width: 100%;
-  padding: 10px;
-  border-radius: 10px;
-  border: none;
-  margin-top: 8px;
-  font-size: 15px;
-}
-.mainbtn {
-  background: red;
-  color: white;
-  font-weight: bold;
-}
-
-.resultado {
-  margin-top: 10px;
-  background: #1a1a1a;
-  padding: 10px;
-  border-radius: 10px;
-  font-size: 14px;
-}
-
-/* VISUAL */
-.crosshair {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
-  font-size: 28px;
-  display: none;
-}
-.fov {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 150px;
-  height: 150px;
   border: 2px solid red;
-  border-radius: 50%;
-  transform: translate(-50%,-50%);
-  display: none;
+  margin: 5px;
+  border-radius: 8px;
+  cursor: pointer;
 }
-.lockbtn {
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
-  background: red;
-  border-radius: 50%;
-  padding: 10px;
+
+.tab:hover { background: red; }
+
+.section {
   display: none;
+  border: 2px solid red;
+  border-radius: 12px;
+  margin: 10px;
+  padding: 15px;
+}
+
+button {
+  background: red;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+select, input {
+  padding: 6px;
+  border-radius: 6px;
+}
+
+.crosshair {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 30px;
+  display: none;
+  pointer-events: none;
 }
 </style>
 </head>
+
 <body>
-<div class="app">
 
-<h1>Kazin Sensi</h1>
+<h1>KAZIN SENSI 🔴⚫</h1>
 
-<div class="tabs">
-  <button onclick="openTab('sensi')" class="active" id="btnSensi">Sensibilidade</button>
-  <button onclick="openTab('visual')" id="btnVisual">Visual</button>
+<div>
+  <div class="tab" onclick="showTab('sensi')">Sensibilidade</div>
+  <div class="tab" onclick="showTab('extra')">Extra</div>
+  <div class="tab" onclick="showTab('visual')">Visual</div>
 </div>
 
-<!-- SENSI -->
-<div id="sensi" class="section active">
-  <p>Free Fire</p>
+<!-- ABA SENSI -->
+<div class="section" id="sensi">
 
-  <select id="marca">
-    <option>Samsung</option>
-    <option>Motorola</option>
-    <option>Xiaomi</option>
-    <option>Realme</option>
-    <option>iPhone</option>
-  </select>
+<h2>Marca do celular</h2>
+<select id="marca">
+  <option>Samsung</option>
+  <option>Xiaomi</option>
+  <option>Motorola</option>
+  <option>Realme</option>
+  <option>Infinix</option>
+  <option>Outro</option>
+</select>
 
-  <select id="nivel">
-    <option value="baixa">Sensi Baixa</option>
-    <option value="media">Sensi Média</option>
-    <option value="alta">Sensi Alta</option>
-  </select>
+<h2>Nível de sensi</h2>
+<select id="nivel">
+  <option value="baixa">Baixa</option>
+  <option value="media">Média</option>
+  <option value="alta">Alta</option>
+</select>
 
-  <button class="mainbtn" onclick="gerar()">Gerar Sensibilidade</button>
-  <div class="resultado" id="resultado"></div>
-</div>
+<br><br>
+<button onclick="gerar()">Gerar Config</button>
+<button onclick="copiar()">Copiar</button>
 
-<!-- VISUAL -->
-<div id="visual" class="section">
-  <p>Opções VISUAIS (não altera o jogo)</p>
-
-  <button onclick="toggleFov()">Círculo FOV</button>
-  <button onclick="toggleLock()">Botão Lock</button>
-
-  <select onchange="changeCrosshair(this.value)">
-    <option value="">Selecionar mira</option>
-    <option value="+">+</option>
-    <option value="×">×</option>
-    <option value="•">•</option>
-    <option value="⊕">⊕</option>
-    <option value="✛">✛</option>
-    <option value="⌖">⌖</option>
-  </select>
-</div>
-
-<div class="crosshair" id="crosshair">+</div>
-<div class="fov" id="fov"></div>
-<div class="lockbtn" id="lock">🔒</div>
+<p id="saida"></p>
 
 </div>
+
+<!-- ABA EXTRA -->
+<div class="section" id="extra">
+<h2>Config para rodar melhor</h2>
+<p id="extraTxt"></p>
+</div>
+
+<!-- ABA VISUAL -->
+<div class="section" id="visual">
+
+<h2>Mira visual</h2>
+
+<select onchange="changeCross(this.value)">
+<option value="">Escolher mira</option>
+<option>+</option>
+<option>×</option>
+<option>•</option>
+<option>⊕</option>
+<option>⌖</option>
+<option>★</option>
+<option>□</option>
+<option>◉</option>
+<option>✚</option>
+</select>
+
+<br><br>
+
+Cor:
+<input type="color" onchange="changeColor(this.value)">
+
+<br><br>
+
+Tamanho:
+<input type="range" min="15" max="80" value="30" onchange="changeSize(this.value)">
+
+<br><br>
+
+<button onclick="toggle()">Mostrar / esconder mira</button>
+
+</div>
+
+<div class="crosshair" id="cross">+</div>
 
 <script>
-function openTab(tab) {
-  document.getElementById("sensi").classList.remove("active");
-  document.getElementById("visual").classList.remove("active");
-  document.getElementById(tab).classList.add("active");
+showTab("sensi");
 
-  document.getElementById("btnSensi").classList.remove("active");
-  document.getElementById("btnVisual").classList.remove("active");
-
-  if(tab==="sensi") btnSensi.classList.add("active");
-  if(tab==="visual") btnVisual.classList.add("active");
+function showTab(id) {
+  document.querySelectorAll(".section").forEach(sec => sec.style.display="none");
+  document.getElementById(id).style.display="block";
 }
 
 function gerar() {
   let nivel = document.getElementById("nivel").value;
-  let geral, redDot, mira2x, mira4x, awm;
+  let marca = document.getElementById("marca").value;
 
-  if (nivel === "baixa") geral=120, redDot=110, mira2x=105, mira4x=95, awm=85;
-  if (nivel === "media") geral=150, redDot=145, mira2x=140, mira4x=130, awm=120;
-  if (nivel === "alta") geral=180, redDot=175, mira2x=170, mira4x=160, awm=150;
+  let texto="";
+  let extra="";
 
-  document.getElementById("resultado").innerHTML = `
-Geral: ${geral}<br>
-Red Dot: ${redDot}<br>
-Mira 2x: ${mira2x}<br>
-Mira 4x: ${mira4x}<br>
-AWM: ${awm}
-`;
+  if(nivel=="baixa"){
+    texto=`Marca: ${marca}<br>
+Geral: 110%<br>
+Red Dot: 100%<br>
+2x Scope: 90%<br>
+4x Scope: 80%<br>
+AWM: 60%`;
+
+    extra=`DPI: 420<br>
+Botão tiro: 45%<br>
+Gráfico: Suave<br>
+FPS: Alto<br>
+Fechar apps em segundo plano`;
+  }
+
+  if(nivel=="media"){
+    texto=`Marca: ${marca}<br>
+Geral: 140%<br>
+Red Dot: 130%<br>
+2x Scope: 120%<br>
+4x Scope: 100%<br>
+AWM: 80%`;
+
+    extra=`DPI: 480<br>
+Botão tiro: 55%<br>
+Gráfico: Padrão<br>
+FPS: Máximo<br>
+Modo jogo ligado`;
+  }
+
+  if(nivel=="alta"){
+    texto=`Marca: ${marca}<br>
+Geral: 170%<br>
+Red Dot: 160%<br>
+2x Scope: 150%<br>
+4x Scope: 130%<br>
+AWM: 100%`;
+
+    extra=`DPI: 540<br>
+Botão tiro: 65%<br>
+Gráfico: Alto<br>
+FPS: Máximo<br>
+Wi-fi bom`;
+  }
+
+  document.getElementById("saida").innerHTML=texto;
+  document.getElementById("extraTxt").innerHTML=extra;
 }
 
-function toggleFov(){
-  let f=document.getElementById("fov");
-  f.style.display = f.style.display==="none"?"block":"none";
+function copiar(){
+  let txt=document.getElementById("saida").innerText;
+  navigator.clipboard.writeText(txt);
+  alert("Config copiada!");
 }
-function toggleLock(){
-  let l=document.getElementById("lock");
-  l.style.display = l.style.display==="none"?"block":"none";
+
+const cross=document.getElementById("cross");
+
+function changeCross(v){
+  if(v==""){cross.style.display="none";}
+  else{
+    cross.innerText=v;
+    cross.style.display="block";
+  }
 }
-function changeCrosshair(v){
-  let c=document.getElementById("crosshair");
-  if(v===""){c.style.display="none";}
-  else{c.innerText=v;c.style.display="block";}
+function changeColor(c){cross.style.color=c;}
+function changeSize(s){cross.style.fontSize=s+"px";}
+function toggle(){
+  cross.style.display = cross.style.display=="none"?"block":"none";
 }
 </script>
+
 </body>
 </html>
