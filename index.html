@@ -2,228 +2,166 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Kazin Sensi FF</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kazin v2.0</title>
 
 <style>
-body {
-  background: black;
-  color: white;
-  font-family: Arial;
-  text-align: center;
+
+body{
+margin:0;
+font-family:Arial;
+background:linear-gradient(180deg,#0a0a0a,#1c1c1c);
+color:white;
 }
 
-h1 { color: red; }
-
-.tab {
-  display: inline-block;
-  padding: 10px;
-  border: 2px solid red;
-  margin: 5px;
-  border-radius: 8px;
-  cursor: pointer;
+header{
+text-align:center;
+padding:20px;
+font-size:30px;
+font-weight:bold;
+background:#ff6a00;
+box-shadow:0 0 15px #ff6a00;
 }
 
-.tab:hover { background: red; }
-
-.section {
-  display: none;
-  border: 2px solid red;
-  border-radius: 12px;
-  margin: 10px;
-  padding: 15px;
+.menu{
+display:flex;
+justify-content:space-around;
+background:#111;
+padding:12px;
 }
 
-button {
-  background: red;
-  color: white;
-  border: none;
-  padding: 10px;
-  border-radius: 8px;
-  margin-top: 10px;
+.menu button{
+background:none;
+border:none;
+color:white;
+font-weight:bold;
+font-size:14px;
+cursor:pointer;
 }
 
-select, input {
-  padding: 6px;
-  border-radius: 6px;
+.menu button:hover{
+color:#ff6a00;
 }
 
-.crosshair {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 30px;
-  display: none;
-  pointer-events: none;
+.container{
+padding:20px;
 }
+
+.card{
+background:#1a1a1a;
+padding:18px;
+border-radius:12px;
+margin-bottom:15px;
+box-shadow:0 0 10px black;
+}
+
+h2{
+color:#ff6a00;
+}
+
+.sensi-box{
+background:#111;
+padding:12px;
+border-radius:10px;
+margin-top:10px;
+}
+
+.sensi-box input{
+width:100%;
+}
+
+button.apply{
+margin-top:10px;
+background:#ff6a00;
+border:none;
+padding:10px;
+border-radius:6px;
+font-weight:bold;
+cursor:pointer;
+}
+
+button.apply:hover{
+background:#ff8c2a;
+}
+
+footer{
+text-align:center;
+padding:15px;
+background:#111;
+margin-top:20px;
+}
+
 </style>
 </head>
 
 <body>
 
-<h1>KAZIN SENSI 🔴⚫</h1>
+<header>Kazin v2.0</header>
 
-<div>
-  <div class="tab" onclick="showTab('sensi')">Sensibilidade</div>
-  <div class="tab" onclick="showTab('extra')">Extra</div>
-  <div class="tab" onclick="showTab('visual')">Visual</div>
+<div class="menu">
+<button>Início</button>
+<button>Dicas</button>
+<button>Sensi</button>
+<button>Capas</button>
+<button>Atualizações</button>
 </div>
 
-<!-- ABA SENSI -->
-<div class="section" id="sensi">
+<div class="container">
 
-<h2>Marca do celular</h2>
-<select id="marca">
-  <option>Samsung</option>
-  <option>Xiaomi</option>
-  <option>Motorola</option>
-  <option>Realme</option>
-  <option>Infinix</option>
-  <option>Outro</option>
-</select>
-
-<h2>Nível de sensi</h2>
-<select id="nivel">
-  <option value="baixa">Baixa</option>
-  <option value="media">Média</option>
-  <option value="alta">Alta</option>
-</select>
-
-<br><br>
-<button onclick="gerar()">Gerar Config</button>
-<button onclick="copiar()">Copiar</button>
-
-<p id="saida"></p>
-
+<div class="card">
+<h2>🔥 Novidades Free Fire</h2>
+<p>Veja eventos novos, armas atualizadas e novidades do jogo.</p>
 </div>
 
-<!-- ABA EXTRA -->
-<div class="section" id="extra">
-<h2>Config para rodar melhor</h2>
-<p id="extraTxt"></p>
+<div class="card">
+<h2>🎯 Kazin Sensi</h2>
+
+<div class="sensi-box">
+<label>Geral</label>
+<input type="range" min="0" max="100" value="95">
 </div>
 
-<!-- ABA VISUAL -->
-<div class="section" id="visual">
+<div class="sensi-box">
+<label>Ponto vermelho</label>
+<input type="range" min="0" max="100" value="90">
+</div>
 
-<h2>Mira visual</h2>
+<div class="sensi-box">
+<label>Mira 2x</label>
+<input type="range" min="0" max="100" value="85">
+</div>
 
-<select onchange="changeCross(this.value)">
-<option value="">Escolher mira</option>
-<option>+</option>
-<option>×</option>
-<option>•</option>
-<option>⊕</option>
-<option>⌖</option>
-<option>★</option>
-<option>□</option>
-<option>◉</option>
-<option>✚</option>
-</select>
+<div class="sensi-box">
+<label>Mira 4x</label>
+<input type="range" min="0" max="100" value="75">
+</div>
 
-<br><br>
+<div class="sensi-box">
+<label>AWM</label>
+<input type="range" min="0" max="100" value="60">
+</div>
 
-Cor:
-<input type="color" onchange="changeColor(this.value)">
-
-<br><br>
-
-Tamanho:
-<input type="range" min="15" max="80" value="30" onchange="changeSize(this.value)">
-
-<br><br>
-
-<button onclick="toggle()">Mostrar / esconder mira</button>
+<button class="apply" onclick="alert('Sensibilidade aplicada!')">
+Aplicar Kazin Sensi
+</button>
 
 </div>
 
-<div class="crosshair" id="cross">+</div>
+<div class="card">
+<h2>💥 Dicas de capa</h2>
+<ul>
+<li>Puxar a mira rápido</li>
+<li>Usar sensi alta</li>
+<li>Treinar no modo treino</li>
+<li>Usar HUD confortável</li>
+</ul>
+</div>
 
-<script>
-showTab("sensi");
+</div>
 
-function showTab(id) {
-  document.querySelectorAll(".section").forEach(sec => sec.style.display="none");
-  document.getElementById(id).style.display="block";
-}
-
-function gerar() {
-  let nivel = document.getElementById("nivel").value;
-  let marca = document.getElementById("marca").value;
-
-  let texto="";
-  let extra="";
-
-  if(nivel=="baixa"){
-    texto=`Marca: ${marca}<br>
-Geral: 110%<br>
-Red Dot: 100%<br>
-2x Scope: 90%<br>
-4x Scope: 80%<br>
-AWM: 60%`;
-
-    extra=`DPI: 420<br>
-Botão tiro: 45%<br>
-Gráfico: Suave<br>
-FPS: Alto<br>
-Fechar apps em segundo plano`;
-  }
-
-  if(nivel=="media"){
-    texto=`Marca: ${marca}<br>
-Geral: 140%<br>
-Red Dot: 130%<br>
-2x Scope: 120%<br>
-4x Scope: 100%<br>
-AWM: 80%`;
-
-    extra=`DPI: 480<br>
-Botão tiro: 55%<br>
-Gráfico: Padrão<br>
-FPS: Máximo<br>
-Modo jogo ligado`;
-  }
-
-  if(nivel=="alta"){
-    texto=`Marca: ${marca}<br>
-Geral: 170%<br>
-Red Dot: 160%<br>
-2x Scope: 150%<br>
-4x Scope: 130%<br>
-AWM: 100%`;
-
-    extra=`DPI: 540<br>
-Botão tiro: 65%<br>
-Gráfico: Alto<br>
-FPS: Máximo<br>
-Wi-fi bom`;
-  }
-
-  document.getElementById("saida").innerHTML=texto;
-  document.getElementById("extraTxt").innerHTML=extra;
-}
-
-function copiar(){
-  let txt=document.getElementById("saida").innerText;
-  navigator.clipboard.writeText(txt);
-  alert("Config copiada!");
-}
-
-const cross=document.getElementById("cross");
-
-function changeCross(v){
-  if(v==""){cross.style.display="none";}
-  else{
-    cross.innerText=v;
-    cross.style.display="block";
-  }
-}
-function changeColor(c){cross.style.color=c;}
-function changeSize(s){cross.style.fontSize=s+"px";}
-function toggle(){
-  cross.style.display = cross.style.display=="none"?"block":"none";
-}
-</script>
+<footer>
+Kazin v2.0 • Projeto inspirado em Free Fire
+</footer>
 
 </body>
 </html>
