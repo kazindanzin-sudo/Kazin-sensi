@@ -192,3 +192,66 @@ document.getElementById("resultado").innerHTML =
 
 </body>
 </html>
+<script>
+
+function gerar(){
+
+let marca = document.getElementById("marca").value
+let ram = parseInt(document.getElementById("ram").value)
+let tipo = document.getElementById("tipo").value
+
+let base
+
+// BASE POR MARCA
+if(marca=="Samsung") base=150
+else if(marca=="Xiaomi") base=165
+else if(marca=="Motorola") base=155
+else if(marca=="Realme") base=170
+else if(marca=="Infinix") base=175
+else if(marca=="iPhone") base=140
+else if(marca=="Asus") base=180
+else if(marca=="Huawei") base=160
+else base=150
+
+// AJUSTE POR RAM
+base = base + (ram * 2)
+
+// AJUSTE POR TIPO
+if(tipo=="baixa") base -= 20
+if(tipo=="media") base += 0
+if(tipo=="alta") base += 20
+
+// CALCULO DAS MIRAS
+let geral = base
+let red = base - 10
+let x2 = base - 20
+let x4 = base - 35
+let awm = base - 55
+let free = base - 25
+
+// LIMITADOR (FF vai até 200)
+if(geral>200) geral=200
+if(red>200) red=200
+if(x2>200) x2=200
+
+document.getElementById("resultado").innerHTML =
+
+`
+🎯 Geral: ${geral}
+
+🔴 Red Dot: ${red}
+
+🔭 Mira 2x: ${x2}
+
+🔭 Mira 4x: ${x4}
+
+🎯 AWM: ${awm}
+
+👀 Olhadinha: ${free}
+
+📱 Botão de tiro: ${50 + ram}%
+`
+
+}
+
+  </script>
