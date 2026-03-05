@@ -19,7 +19,200 @@ text-align:center;
 padding:20px;
 font-size:30px;
 font-weight:bold;
-background:#ff6a00;
+background:#ff6a00;<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kazin Sensi</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#0d0d0d;
+color:white;
+margin:0;
+}
+
+header{
+background:#ff0000;
+text-align:center;
+padding:20px;
+font-size:28px;
+font-weight:bold;
+}
+
+.container{
+padding:20px;
+}
+
+.card{
+background:#1a1a1a;
+padding:20px;
+border-radius:12px;
+margin-bottom:20px;
+}
+
+h2{
+color:#ff3c3c;
+}
+
+select,button{
+width:100%;
+padding:10px;
+margin-top:10px;
+border-radius:8px;
+border:none;
+}
+
+button{
+background:#ff0000;
+color:white;
+font-weight:bold;
+cursor:pointer;
+}
+
+button:hover{
+background:#cc0000;
+}
+
+.result{
+background:#111;
+padding:15px;
+border-radius:10px;
+margin-top:15px;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>Kazin Sensi</header>
+
+<div class="container">
+
+<div class="card">
+
+<h2>Gerador de Sensibilidade</h2>
+
+<label>Marca do celular</label>
+<select id="marca">
+<option>Samsung</option>
+<option>Xiaomi</option>
+<option>Motorola</option>
+<option>Realme</option>
+<option>Infinix</option>
+<option>iPhone</option>
+<option>Asus</option>
+<option>Huawei</option>
+<option>LG</option>
+<option>Outro</option>
+</select>
+
+<label>RAM do celular</label>
+<select id="ram">
+<option value="2">2GB</option>
+<option value="3">3GB</option>
+<option value="4">4GB</option>
+<option value="6">6GB</option>
+<option value="8">8GB</option>
+<option value="12">12GB+</option>
+</select>
+
+<label>Tipo de sensi</label>
+<select id="tipo">
+<option value="baixa">Baixa (controle)</option>
+<option value="media">Média (equilibrada)</option>
+<option value="alta">Alta (capa rápido)</option>
+</select>
+
+<button onclick="gerar()">Gerar Sensibilidade</button>
+
+<div class="result" id="resultado">
+A sensibilidade vai aparecer aqui.
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function gerar(){
+
+let ram = document.getElementById("ram").value
+let tipo = document.getElementById("tipo").value
+
+let geral
+let red
+let x2
+let x4
+let awm
+let free
+
+if(tipo=="baixa"){
+geral=120
+red=110
+x2=100
+x4=90
+awm=70
+free=80
+}
+
+if(tipo=="media"){
+geral=160
+red=150
+x2=140
+x4=120
+awm=100
+free=110
+}
+
+if(tipo=="alta"){
+geral=190
+red=180
+x2=170
+x4=150
+awm=120
+free=130
+}
+
+if(ram<=3){
+geral-=10
+red-=10
+}
+
+if(ram>=8){
+geral+=5
+red+=5
+}
+
+document.getElementById("resultado").innerHTML =
+
+`
+🎯 Geral: ${geral}
+
+🔴 Red Dot: ${red}
+
+🔭 Mira 2x: ${x2}
+
+🔭 Mira 4x: ${x4}
+
+🎯 AWM: ${awm}
+
+👀 Olhadinha: ${free}
+
+📱 Botão de tiro: 55%
+`
+
+}
+
+</script>
+
+</body>
+</html>
 box-shadow:0 0 15px #ff6a00;
 }
 
